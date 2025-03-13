@@ -65,10 +65,10 @@ public class LoginSignUpPage {
         return this;
     }
 
-    public Homepage clickOnLoginButton() {
-        driver.findElement(loginButton).click();
-        return new Homepage(driver);
-    }
+//    public Homepage clickOnLoginButton() {
+//        driver.findElement(loginButton).click();
+//        return new Homepage(driver);
+//    }
 
     public RegistrationPage clickOnSignUpButton() {
         driver.findElement(signUpButton).click();

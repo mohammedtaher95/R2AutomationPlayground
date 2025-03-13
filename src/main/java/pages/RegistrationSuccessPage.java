@@ -34,8 +34,8 @@ public class RegistrationSuccessPage {
         return this;
     }
 
-    public Homepage clickOnContinueButton() {
-        driver.findElement(continueButton).click();
-        return new Homepage(driver);
-    }
+//    public Homepage clickOnContinueButton() {
+//        driver.findElement(continueButton).click();
+//        return new Homepage(driver);
+//    }
 }

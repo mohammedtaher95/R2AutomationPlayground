@@ -1,5 +1,6 @@
 package automationexercisetests;
 
+import driverfactory.Driver;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterMethod;
@@ -12,15 +13,12 @@ import java.time.Duration;
 
 public class LoginSignUpTests {
 
-    private WebDriver driver;
+    private Driver driver;
 
     @BeforeMethod
     public void setup() {
-
-        driver = new ChromeDriver();
-        driver.navigate().to("https://www.automationexercise.com/");
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
-        driver.manage().window().maximize();
+        driver = new Driver("cHroME");
+        driver.get().navigate().to("https://www.automationexercise.com/");
     }
 
     @Test
@@ -30,7 +28,7 @@ public class LoginSignUpTests {
                 .fillSignUpForm("Mohammed", "test@test.com")
                 .clickOnSignUpButton();
 
-        new LoginSignUpPage(driver).checkThatExistingEmailErrorShouldBeDisplayed();
+        new LoginSignUpPage(driver.get()).checkThatExistingEmailErrorShouldBeDisplayed();
     }
 
     @AfterMethod

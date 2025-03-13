@@ -1,5 +1,7 @@
 package driverfactory;
 
+import browseractions.BrowserActions;
+import elementactions.ElementActions;
 import org.openqa.selenium.WebDriver;
 
 public class Driver {
@@ -13,7 +15,7 @@ public class Driver {
     }
 
     private DriverAbstract getDriver(String driver) {
-        switch (driver) {
+        switch (driver.toUpperCase()) {
             case "CHROME": {
                 return new ChromeDriverFactory();
             }
@@ -31,5 +33,17 @@ public class Driver {
 
     public WebDriver get() {
         return this.driver;
+    }
+
+    public void quit() {
+        driver.quit();
+    }
+
+    public ElementActions element() {
+        return new ElementActions(driver);
+    }
+
+    public BrowserActions browser() {
+        return new BrowserActions(driver);
     }
 }
