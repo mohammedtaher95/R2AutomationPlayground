@@ -16,10 +16,14 @@ public class LoginSignUpPage {
     By loginEmailField = By.xpath("//input[@data-qa=\"login-email\"]");
     By passwordField = By.name("password");
     By loginButton = By.xpath("//button[@data-qa=\"login-button\"]");
+    By incorrectLoginCredentialmsg = By.xpath("//form[@action=\"/login\"]/p");
+    By existingEmailerror = By.xpath("//p[contains(text(), \"Email Address already exist!\")]");
 
 
     String signUpFormTitle = "New User Signup!";
     String loginFormTitle = "Login to your account";
+    String incorrectLoginCredentials;
+    String existingEmailMessage = "Email Address already exist!";
 
     public LoginSignUpPage(WebDriver driver) {
         this.driver = driver;
@@ -34,6 +38,12 @@ public class LoginSignUpPage {
 
     public LoginSignUpPage checkThatLoginFormTitleShouldBeDisplayed() {
         Assert.assertEquals(driver.findElement(loginFormHeader).getText(), loginFormTitle);
+        return this;
+    }
+
+    public LoginSignUpPage checkThatExistingEmailErrorShouldBeDisplayed() {
+        Assert.assertTrue(driver.findElement(existingEmailerror).isDisplayed());
+        Assert.assertEquals(driver.findElement(existingEmailerror).getText(), existingEmailMessage);
         return this;
     }
 
