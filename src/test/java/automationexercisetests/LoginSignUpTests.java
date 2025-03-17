@@ -28,7 +28,7 @@ public class LoginSignUpTests {
                 .fillSignUpForm("Mohammed", "test@test.com")
                 .clickOnSignUpButton();
 
-        new LoginSignUpPage(driver.get()).checkThatExistingEmailErrorShouldBeDisplayed();
+        new LoginSignUpPage(driver).checkThatExistingEmailErrorShouldBeDisplayed();
     }
 
     @AfterMethod

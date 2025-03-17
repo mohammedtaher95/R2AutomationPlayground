@@ -43,17 +43,17 @@ public class Homepage {
 
     public LoginSignUpPage clickOnLoginSignUpPage() {
         driver.element().click(loginSignUpLink);
-        return new LoginSignUpPage(driver.get());
+        return new LoginSignUpPage(driver);
     }
 
     public LoginSignUpPage clickOnLogoutLink(){
         driver.element().click(logoutLink);
-        return new LoginSignUpPage(driver.get());
+        return new LoginSignUpPage(driver);
     }
 
     public AccountDeletionPage clickOnDeleteAccountPage() {
         driver.element().click(deleteAccountLink);
-        return new AccountDeletionPage(driver.get());
+        return new AccountDeletionPage(driver);
     }
 
 

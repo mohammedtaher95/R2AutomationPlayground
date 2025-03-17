@@ -1,5 +1,6 @@
 package pages;
 
+import driverfactory.Driver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.interactions.Actions;
@@ -8,7 +9,7 @@ import org.testng.Assert;
 
 public class RegistrationPage {
 
-    public WebDriver driver;
+    public Driver driver;
 
     By pageTitle = By.xpath("(//h2[@class=\"title text-center\"])[1]");
     By password = By.id("password");
@@ -22,39 +23,38 @@ public class RegistrationPage {
     By mobileNumber = By.xpath("//input[@data-qa=\"mobile_number\"]");
     By createAccountButton = By.xpath("//button[@data-qa=\"create-account\"]");
 
-    public RegistrationPage(WebDriver driver) {
+    public RegistrationPage(Driver driver) {
         this.driver = driver;
     }
 
     /***************************************** Assertions  ******************************************/
 
     public RegistrationPage checkThatRegistrationPageShouldBeLoadedSuccessfully() {
-        Assert.assertTrue(driver.getCurrentUrl().contains("/signup"));
-        Assert.assertEquals(driver.findElement(pageTitle).getText(), "ENTER ACCOUNT INFORMATION");
+        Assert.assertTrue(driver.browser().getCurrentURL().contains("/signup"));
+        Assert.assertEquals(driver.element().getTextOf(pageTitle), "ENTER ACCOUNT INFORMATION");
         return this;
     }
 
     /******************************************* Actions ********************************************/
 
     public RegistrationPage fillInRegistrationPage() {
-        driver.findElement(password).sendKeys("12345678");
-        driver.findElement(firstName).sendKeys("Mohammed");
-        driver.findElement(lastName).sendKeys("Taher");
-        driver.findElement(address).sendKeys("Alexandria");
-        driver.findElement(state).sendKeys("Alex");
-        driver.findElement(city).sendKeys("Alex");
+        driver.get().findElement(password).sendKeys("12345678");
+        driver.get().findElement(firstName).sendKeys("Mohammed");
+        driver.get().findElement(lastName).sendKeys("Taher");
+        driver.get().findElement(address).sendKeys("Alexandria");
+        driver.get().findElement(state).sendKeys("Alex");
+        driver.get().findElement(city).sendKeys("Alex");
 
-        Select select = new Select(driver.findElement(country));
-        select.selectByValue("Canada");
+        driver.element().selectByValue(country, "Canada");
 
-        driver.findElement(zipCode).sendKeys("21500");
-        driver.findElement(mobileNumber).sendKeys("01234456978");
+        driver.get().findElement(zipCode).sendKeys("21500");
+        driver.get().findElement(mobileNumber).sendKeys("01234456978");
         return this;
     }
 
     public RegistrationSuccessPage clickOnCreateAccountButton() {
-        new Actions(driver).scrollByAmount(0, 2500).build().perform();
-        driver.findElement(createAccountButton).click();
+        new Actions(driver.get()).scrollByAmount(0, 2500).build().perform();
+        driver.get().findElement(createAccountButton).click();
         return new RegistrationSuccessPage(driver);
     }
 }
