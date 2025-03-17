@@ -53,8 +53,8 @@ public class RegistrationPage {
     }
 
     public RegistrationSuccessPage clickOnCreateAccountButton() {
-        new Actions(driver.get()).scrollByAmount(0, 2500).build().perform();
-        driver.get().findElement(createAccountButton).click();
+        //driver.element().scrollToElement(createAccountButton);
+        driver.element().click(createAccountButton);
         return new RegistrationSuccessPage(driver);
     }
 }

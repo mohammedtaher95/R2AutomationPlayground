@@ -1,20 +1,34 @@
 package elementactions;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 
 public class ElementActions {
 
     private WebDriver driver;
+    private JavascriptExecutor javascriptExecutor;
 
     public ElementActions(WebDriver driver) {
         this.driver = driver;
+        javascriptExecutor = (JavascriptExecutor) this.driver;
     }
 
     public ElementActions click(By locator) {
         System.out.println("Click on: " + locator.toString());
-        driver.findElement(locator).click();
+        try {
+            driver.findElement(locator).click();
+        } catch (ElementClickInterceptedException | NoSuchElementException
+        | StaleElementReferenceException | TimeoutException exception) {
+            scrollToElement(locator);
+            clickUsingJavaScript(locator);
+        }
+        return this;
+    }
+
+    public ElementActions clickUsingJavaScript(By locator) {
+        System.out.println("Click on: " + locator.toString() + " Using JavaScript");
+        javascriptExecutor.executeScript("arguments[0].click();", driver.findElement(locator));
         return this;
     }
 
@@ -28,6 +42,14 @@ public class ElementActions {
     public ElementActions clearField(By locator) {
         System.out.println("Clear field with locator: " + locator.toString());
         driver.findElement(locator).clear();
+        return this;
+    }
+
+    public ElementActions scrollToElement(By locator) {
+        System.out.println("Scrolling to Element: " + locator.toString());
+        // new Actions(driver).scrollToElement(driver.findElement(locator)).build().perform();
+        javascriptExecutor.executeScript("arguments[0].scrollIntoView(true);"
+                , driver.findElement(locator));
         return this;
     }
 

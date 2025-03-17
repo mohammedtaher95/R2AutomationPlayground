@@ -25,7 +25,7 @@ public class TestClass {
     public void userShouldRegisterSuccessfully() {
         new Homepage(driver).clickOnLoginSignUpPage()
                 .checkThatSignUpFormTitleShouldBeDisplayed()
-                .fillSignUpForm("Mohammed", "test3635878@test.com")
+                .fillSignUpForm("Mohammed", "test3873888878@test.com")
                 .clickOnSignUpButton()
                 .checkThatRegistrationPageShouldBeLoadedSuccessfully()
                 .fillInRegistrationPage()
