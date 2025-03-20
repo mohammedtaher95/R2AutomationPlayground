@@ -11,27 +11,28 @@ import java.time.Duration;
 
 public class LoginSignUpTests {
 
-    private Driver driver;
+    private ThreadLocal<Driver> driver;
 
     @BeforeMethod
     @Parameters(value = {"browserName"})
     public void setup(@Optional("CHROME") String browserName) {
-        driver = new Driver(browserName);
-        driver.browser().navigateToURL("https://www.automationexercise.com/");
+        driver = new ThreadLocal<>();
+        driver.set(new Driver(browserName));
+        driver.get().browser().navigateToURL("https://www.automationexercise.com/");
     }
 
     @Test
     public void registerWithExistingEmail() {
-        new Homepage(driver).clickOnLoginSignUpPage()
+        new Homepage(driver.get()).clickOnLoginSignUpPage()
                 .checkThatSignUpFormTitleShouldBeDisplayed()
                 .fillSignUpForm("Mohammed", "test@test.com")
                 .clickOnSignUpButton();
 
-        new LoginSignUpPage(driver).checkThatExistingEmailErrorShouldBeDisplayed();
+        new LoginSignUpPage(driver.get()).checkThatExistingEmailErrorShouldBeDisplayed();
     }
 
     @AfterMethod
     public void tearDown() {
-        driver.quit();
+        driver.get().quit();
     }
 }

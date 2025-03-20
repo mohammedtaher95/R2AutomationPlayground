@@ -6,12 +6,13 @@ import org.openqa.selenium.WebDriver;
 
 public class Driver {
 
-    private WebDriver driver;
+    private ThreadLocal<WebDriver> driver;
 
-    public Driver(String driver) {
-        this.driver = getDriver(driver).startDriver();
+    public Driver(String driverType) {
+        driver = new ThreadLocal<>();
+        driver.set(getDriver(driverType).startDriver());
         System.out.println("Starting the execution via " + driver + " driver");
-        this.driver.manage().window().maximize();
+        driver.get().manage().window().maximize();
     }
 
     private DriverAbstract getDriver(String driver) {
@@ -32,18 +33,18 @@ public class Driver {
     }
 
     public WebDriver get() {
-        return this.driver;
+        return driver.get();
     }
 
     public void quit() {
-        driver.quit();
+        driver.get().quit();
     }
 
     public ElementActions element() {
-        return new ElementActions(driver);
+        return new ElementActions(driver.get());
     }
 
     public BrowserActions browser() {
-        return new BrowserActions(driver);
+        return new BrowserActions(driver.get());
     }
 }

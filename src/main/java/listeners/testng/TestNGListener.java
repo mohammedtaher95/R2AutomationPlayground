@@ -37,6 +37,7 @@ public class TestNGListener implements IExecutionListener, ITestListener {
         System.out.println("Taking Screenshot......");
 
         Driver driver = null;
+        ThreadLocal<Driver> driverThreadLocal;
         Object currentClass = result.getInstance();
         Field[] fields = result.getTestClass().getRealClass().getDeclaredFields();
 
@@ -44,6 +45,11 @@ public class TestNGListener implements IExecutionListener, ITestListener {
             for(Field field: fields){
                 if(field.getType() == Driver.class) {
                     driver = (Driver) field.get(currentClass);
+                }
+
+                if(field.getType() == ThreadLocal.class) {
+                    driverThreadLocal = (ThreadLocal<Driver>) field.get(currentClass);
+                    driver = driverThreadLocal.get();
                 }
             }
         } catch (IllegalAccessException exception) {

@@ -1,37 +1,25 @@
 package automationexercisetests;
 
 import driverfactory.Driver;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.testng.ITestResult;
 import org.testng.annotations.*;
 import pages.Homepage;
 import pages.LoginSignUpPage;
-import utilities.ScreenshotManager;
-
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
-import java.time.Duration;
 
 public class TestClass {
 
-    public Driver driver;
+    public ThreadLocal<Driver> driver;
 
     @BeforeClass
     @Parameters(value = {"browserName"})
     public void setup(@Optional("CHROME") String browserName) {
-        driver = new Driver(browserName);
-        driver.browser().navigateToURL("https://www.automationexercise.com/");
+        driver = new ThreadLocal<>();
+        driver.set(new Driver(browserName));
+        driver.get().browser().navigateToURL("https://www.automationexercise.com/");
     }
 
     @Test(priority = 1)
     public void userShouldRegisterSuccessfully() {
-        new Homepage(driver).clickOnLoginSignUpPage()
+        new Homepage(driver.get()).clickOnLoginSignUpPage()
                 .checkThatSignUpFormTitleShouldBeDisplayed()
                 .fillSignUpForm("Mohammed", "test3875838878@test.com")
                 .clickOnSignUpButton()
@@ -47,12 +35,12 @@ public class TestClass {
 
     @Test(priority = 2, dependsOnMethods = {"userShouldRegisterSuccessfully"})
     public void userCanLogoutSuccessfully() {
-        new Homepage(driver).clickOnLogoutLink().checkThatLoginFormTitleShouldBeDisplayed();
+        new Homepage(driver.get()).clickOnLogoutLink().checkThatLoginFormTitleShouldBeDisplayed();
     }
 
     @Test(priority = 3, dependsOnMethods = {"userCanLogoutSuccessfully"})
     public void userCanLoginSuccessfully() {
-        new LoginSignUpPage(driver).fillInLoginEmailField("test3635878@test.com")
+        new LoginSignUpPage(driver.get()).fillInLoginEmailField("test3635878@test.com")
                 .fillInPasswordField("12345678")
                 .clickOnLoginButton()
                 .checkThatUserShouldBeNavigatedToHomePageSuccessfully()
@@ -62,7 +50,7 @@ public class TestClass {
 
     @Test(priority = 4, dependsOnMethods = {"userCanLoginSuccessfully"})
     public void userCanDeleteAccountSuccessfully() {
-        new Homepage(driver).clickOnDeleteAccountPage()
+        new Homepage(driver.get()).clickOnDeleteAccountPage()
                 .checkThatAccountShouldBeDeletedSuccessfully()
                 .clickOnContinueButton()
                 .checkThatLoginLinkShouldBeDisplayed();
@@ -82,6 +70,6 @@ public class TestClass {
 
     @AfterClass
     public void tearDown() {
-        driver.quit();
+        driver.get().quit();
     }
 }
