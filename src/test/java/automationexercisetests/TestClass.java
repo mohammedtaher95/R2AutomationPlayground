@@ -1,23 +1,31 @@
 package automationexercisetests;
 
 import driverfactory.Driver;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
+import org.testng.ITestResult;
+import org.testng.annotations.*;
 import pages.Homepage;
 import pages.LoginSignUpPage;
+import utilities.ScreenshotManager;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.time.Duration;
 
 public class TestClass {
 
-    private Driver driver;
+    public Driver driver;
 
     @BeforeClass
-    public void setup() {
-        driver = new Driver("CHROME");
+    @Parameters(value = {"browserName"})
+    public void setup(@Optional("CHROME") String browserName) {
+        driver = new Driver(browserName);
         driver.browser().navigateToURL("https://www.automationexercise.com/");
     }
 
@@ -25,7 +33,7 @@ public class TestClass {
     public void userShouldRegisterSuccessfully() {
         new Homepage(driver).clickOnLoginSignUpPage()
                 .checkThatSignUpFormTitleShouldBeDisplayed()
-                .fillSignUpForm("Mohammed", "test3873888878@test.com")
+                .fillSignUpForm("Mohammed", "test3875838878@test.com")
                 .clickOnSignUpButton()
                 .checkThatRegistrationPageShouldBeLoadedSuccessfully()
                 .fillInRegistrationPage()
@@ -59,6 +67,18 @@ public class TestClass {
                 .clickOnContinueButton()
                 .checkThatLoginLinkShouldBeDisplayed();
     }
+
+//    @AfterMethod
+//    public void screenShotOnFailure(ITestResult testResult) {
+//
+//        if(testResult.getStatus() == ITestResult.FAILURE) {
+//
+//
+//            ScreenshotManager.captureScreenshot(driver.get(), testResult.getName());
+//
+//        }
+//    }
+
 
     @AfterClass
     public void tearDown() {
