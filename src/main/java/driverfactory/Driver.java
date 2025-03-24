@@ -4,15 +4,33 @@ import browseractions.BrowserActions;
 import elementactions.ElementActions;
 import org.openqa.selenium.WebDriver;
 
+import static utilities.PropertiesManager.webConfig;
+
 public class Driver {
 
     private ThreadLocal<WebDriver> driver;
+
+    public Driver() {
+        String driverType = webConfig.getProperty("BrowserType");
+        driver = new ThreadLocal<>();
+        driver.set(getDriver(driverType).startDriver());
+        System.out.println("Starting the execution via " + driverType + " driver");
+        driver.get().manage().window().maximize();
+
+        if(!webConfig.getProperty("BaseURL").isEmpty()) {
+            driver.get().navigate().to(webConfig.getProperty("BaseURL"));
+        }
+    }
 
     public Driver(String driverType) {
         driver = new ThreadLocal<>();
         driver.set(getDriver(driverType).startDriver());
         System.out.println("Starting the execution via " + driver + " driver");
         driver.get().manage().window().maximize();
+
+        if(!webConfig.getProperty("BaseURL").isEmpty()) {
+            driver.get().navigate().to(webConfig.getProperty("BaseURL"));
+        }
     }
 
     private DriverAbstract getDriver(String driver) {

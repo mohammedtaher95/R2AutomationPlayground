@@ -14,11 +14,9 @@ public class LoginSignUpTests {
     private ThreadLocal<Driver> driver;
 
     @BeforeMethod
-    @Parameters(value = {"browserName"})
-    public void setup(@Optional("CHROME") String browserName) {
+    public void setup() {
         driver = new ThreadLocal<>();
-        driver.set(new Driver(browserName));
-        driver.get().browser().navigateToURL("https://www.automationexercise.com/");
+        driver.set(new Driver());
     }
 
     @Test
