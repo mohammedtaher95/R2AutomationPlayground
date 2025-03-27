@@ -1,11 +1,16 @@
 package listeners.testng;
 
 import driverfactory.Driver;
+import io.qameta.allure.Allure;
+import org.apache.commons.io.FileUtils;
 import org.testng.IExecutionListener;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
+import utilities.AllureReportHelper;
 import utilities.ScreenshotManager;
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Field;
 
 import static utilities.PropertiesManager.initializeProperties;
@@ -17,10 +22,21 @@ public class TestNGListener implements IExecutionListener, ITestListener {
     public void onExecutionStart() {
         System.out.println("**************** Welcome to Selenium Framework *****************");
         initializeProperties();
+        System.out.println("Cleaning Allure Report....");
+        AllureReportHelper.cleanAllureReport();
     }
 
     @Override
     public void onExecutionFinish() {
+        System.out.println("Generating Report......");
+
+        try {
+            System.out.println("Opening Allure Report");
+            Runtime.getRuntime().exec("reportGeneration.bat");
+        } catch (IOException e) {
+            System.out.println("Unable to Generate Allure Report, may be there's an issue in the batch file/commands");
+        }
+
         System.out.println("********************* End of Execution *********************");
     }
 
@@ -60,5 +76,14 @@ public class TestNGListener implements IExecutionListener, ITestListener {
         }
         assert driver != null;
         ScreenshotManager.captureScreenshot(driver.get(), result.getName());
+
+        String fullPath = System.getProperty("user.dir") + "/screenshots" + result.getName();
+
+        try {
+            Allure.addAttachment(result.getMethod().getConstructorOrMethod().getName(),
+                    FileUtils.openInputStream(new File(fullPath)));
+        } catch (IOException e) {
+            System.out.println("Attachment isn't Found");
+        }
     }
 }
