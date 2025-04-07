@@ -14,7 +14,7 @@ public class ScreenshotManager {
 
     static String screenshotsDirectoryPath = "./screenshots";
 
-    public static void captureScreenshot(WebDriver driver, String screenshotName) {
+    public static String captureScreenshot(WebDriver driver, String screenshotName) {
         Path destination = Paths.get(screenshotsDirectoryPath, screenshotName + ".jpg");
 
         byte[] byteArray = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
@@ -24,5 +24,6 @@ public class ScreenshotManager {
         } catch (IOException e) {
             System.out.println("Unable to Save screenshot");
         }
+        return String.valueOf(destination);
     }
 }

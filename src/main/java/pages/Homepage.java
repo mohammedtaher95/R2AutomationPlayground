@@ -25,18 +25,19 @@ public class Homepage {
         return this;
     }
 
-    @Step("checkThatLoginLinkShouldBeDisplayed")
+    @Step("check That Login Link Should Be Displayed")
     public Homepage checkThatLoginLinkShouldBeDisplayed() {
         Assert.assertTrue(driver.element().isDisplayed(loginSignUpLink));
         return this;
     }
 
-    @Step("checkThatLogoutLinkShouldBeDisplayed")
+    @Step("check That Logout Link Should Be Displayed")
     public Homepage checkThatLogoutLinkShouldBeDisplayed() {
         Assert.assertTrue(driver.element().isDisplayed(logoutLink));
         return this;
     }
 
+    @Step("check That Delete Account Link Should Be Displayed")
     public Homepage checkThatDeleteAccountLinkShouldBeDisplayed() {
         Assert.assertTrue(driver.element().isDisplayed(deleteAccountLink));
         return this;

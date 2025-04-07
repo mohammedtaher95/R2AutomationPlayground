@@ -10,10 +10,9 @@ public class TestClass {
     public ThreadLocal<Driver> driver;
 
     @BeforeClass
-    @Parameters(value = {"browserName"})
-    public void setup(@Optional("CHROME") String browserName) {
+    public void setup() {
         driver = new ThreadLocal<>();
-        driver.set(new Driver(browserName));
+        driver.set(new Driver());
         driver.get().browser().navigateToURL("https://www.automationexercise.com/");
     }
 
