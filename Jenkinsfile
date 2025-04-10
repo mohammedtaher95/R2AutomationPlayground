@@ -23,7 +23,7 @@ node {
             if (isUnix()) {
                 sh '"$MVN_HOME/bin/mvn" -Dmaven.test.failure.ignore clean test -Dtest=' + params.Class
             } else {
-                bat(/"%MVN_HOME%\bin\mvn" -Dmaven.test.failure.ignore clean test -Dtest/ + params.Class)
+                bat(/"%MVN_HOME%\bin\mvn" -Dmaven.test.failure.ignore clean test -Dtest=/ + params.Class)
             }
         }
     }
