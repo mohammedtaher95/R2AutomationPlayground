@@ -80,8 +80,10 @@ public class TestNGListener implements IExecutionListener, ITestListener {
         }
         assert driver != null;
 
-        String fullPath = ScreenshotManager.captureScreenshot(driver.get(), result.getName());
-        System.out.println(fullPath);
+        String fullPath = System.getProperty("user.dir")
+                + ScreenshotManager.captureScreenshot(driver,
+                result.getMethod().getConstructorOrMethod().getName());
+        //System.out.println(fullPath);
 
         try {
             Allure.addAttachment(result.getMethod().getConstructorOrMethod().getName(),

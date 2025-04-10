@@ -1,6 +1,9 @@
 package automationexercisetests;
 
 import driverfactory.Driver;
+import io.qameta.allure.Description;
+import io.qameta.allure.Issue;
+import io.qameta.allure.TmsLink;
 import org.testng.annotations.*;
 import pages.Homepage;
 import pages.LoginSignUpPage;
@@ -16,7 +19,10 @@ public class TestClass {
         driver.get().browser().navigateToURL("https://www.automationexercise.com/");
     }
 
-    @Test(priority = 1)
+    @Issue(" ")
+    @TmsLink("Nop Commerce_1-User Registration")
+    @Description("User can access registration page and register successfully")
+    @Test(priority = 1, description = "User Register on website successfully")
     public void userShouldRegisterSuccessfully() {
         new Homepage(driver.get()).clickOnLoginSignUpPage()
                 .checkThatSignUpFormTitleShouldBeDisplayed()

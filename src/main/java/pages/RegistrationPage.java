@@ -1,6 +1,7 @@
 package pages;
 
 import driverfactory.Driver;
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.interactions.Actions;
@@ -29,6 +30,7 @@ public class RegistrationPage {
 
     /***************************************** Assertions  ******************************************/
 
+    @Step("check That Registration Page Should Be Loaded Successfully")
     public RegistrationPage checkThatRegistrationPageShouldBeLoadedSuccessfully() {
         Assert.assertTrue(driver.browser().getCurrentURL().contains("/signup"));
         Assert.assertEquals(driver.element().getTextOf(pageTitle), "ENTER ACCOUNT INFORMATION");

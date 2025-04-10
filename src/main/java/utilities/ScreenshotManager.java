@@ -1,9 +1,11 @@
 package utilities;
 
+import driverfactory.Driver;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -13,17 +15,28 @@ import java.nio.file.StandardOpenOption;
 public class ScreenshotManager {
 
     static String screenshotsDirectoryPath = "./screenshots";
+    private static final File screenshotsDirectory = new File(screenshotsDirectoryPath);
 
-    public static String captureScreenshot(WebDriver driver, String screenshotName) {
-        Path destination = Paths.get(screenshotsDirectoryPath, screenshotName + ".jpg");
+    private ScreenshotManager() {
 
-        byte[] byteArray = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+    }
 
+    public static Path captureScreenshot(Driver driver, String screenshotName) {
+
+        if (!screenshotsDirectory.exists()) {
+            boolean created = screenshotsDirectory.mkdirs();
+            if (created) {
+                System.out.println("Screenshots Directory Created");
+            }
+        }
+
+        Path destination = Paths.get("./screenshots", screenshotName + ".jpg");
+        byte[] byteArray = ((TakesScreenshot) driver.get()).getScreenshotAs(OutputType.BYTES);
         try {
             Files.write(destination, byteArray, StandardOpenOption.CREATE);
         } catch (IOException e) {
-            System.out.println("Unable to Save screenshot");
+            System.out.println("Unable to capture Screenshot " + e.getMessage());
         }
-        return String.valueOf(destination);
+        return destination;
     }
 }
