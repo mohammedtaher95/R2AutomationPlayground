@@ -21,9 +21,9 @@ node {
     stage('Running Tests') {
         withEnv(["MVN_HOME=$mvnHome"]) {
             if (isUnix()) {
-                sh '"$MVN_HOME/bin/mvn" -Dmaven.test.failure.ignore clean test'
+                sh '"$MVN_HOME/bin/mvn" -Dmaven.test.failure.ignore clean test -Dtest=' + params.Class
             } else {
-                bat(/"%MVN_HOME%\bin\mvn" -Dmaven.test.failure.ignore clean test/)
+                bat(/"%MVN_HOME%\bin\mvn" -Dmaven.test.failure.ignore clean test -Dtest/ + params.Class)
             }
         }
     }
